@@ -27260,6 +27260,7 @@ components:
       - $ref: '#/components/schemas/ObservabilityPipelineSentinelOneDestination'
       - $ref: '#/components/schemas/ObservabilityPipelineOpenSearchDestination'
       - $ref: '#/components/schemas/ObservabilityPipelineAmazonOpenSearchDestination'
+      - $ref: '#/components/schemas/ObservabilityPipelineCrowdstrikeNextGenSiemDestination'
     ObservabilityPipelineConfigProcessorItem:
       description: A processor for the pipeline.
       oneOf:
@@ -27297,6 +27298,65 @@ components:
       - $ref: '#/components/schemas/ObservabilityPipelineGooglePubSubSource'
       - $ref: '#/components/schemas/ObservabilityPipelineHttpClientSource'
       - $ref: '#/components/schemas/ObservabilityPipelineLogstashSource'
+    ObservabilityPipelineCrowdstrikeNextGenSiemDestination:
+      description: The `crowdstrike_next_gen_siem` destination forwards logs to Crowdstrike
+        Next Gen SIEM.
+      properties:
+        compression:
+          $ref: '#/components/schemas/ObservabilityPipelineCrowdstrikeNextGenSiemDestinationCompression'
+        encoding:
+          $ref: '#/components/schemas/ObservabilityPipelineCrowdstrikeNextGenSiemDestinationEncoding'
+        id:
+          description: The unique identifier for this component.
+          example: crowdstrike-ngsiem-destination
+          type: string
+        inputs:
+          description: A list of component IDs whose output is used as the `input`
+            for this component.
+          example:
+          - filter-processor
+          items:
+            type: string
+          type: array
+        tls:
+          $ref: '#/components/schemas/ObservabilityPipelineTls'
+        type:
+          $ref: '#/components/schemas/ObservabilityPipelineCrowdstrikeNextGenSiemDestinationType'
+      required:
+      - id
+      - type
+      - inputs
+      - encoding
+      type: object
+    ObservabilityPipelineCrowdstrikeNextGenSiemDestinationCompression:
+      description: Compression algorithm for log events.
+      enum:
+      - gzip
+      - zlib
+      example: gzip
+      type: string
+      x-enum-varnames:
+      - GZIP
+      - ZLIB
+    ObservabilityPipelineCrowdstrikeNextGenSiemDestinationEncoding:
+      description: Encoding format for log events.
+      enum:
+      - json
+      - raw_message
+      example: json
+      type: string
+      x-enum-varnames:
+      - JSON
+      - RAW_MESSAGE
+    ObservabilityPipelineCrowdstrikeNextGenSiemDestinationType:
+      default: crowdstrike_next_gen_siem
+      description: The destination type. The value should always be `crowdstrike_next_gen_siem`.
+      enum:
+      - crowdstrike_next_gen_siem
+      example: crowdstrike_next_gen_siem
+      type: string
+      x-enum-varnames:
+      - CROWDSTRIKE_NEXT_GEN_SIEM
     ObservabilityPipelineData:
       description: "Contains the pipeline\u2019s ID, type, and configuration attributes."
       properties:
