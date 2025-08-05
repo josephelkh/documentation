@@ -36930,6 +36930,12 @@ components:
     SecurityMonitoringRuleUpdatePayload:
       description: Update an existing rule.
       properties:
+        calculatedFields:
+          description: Calculated fields. Only allowed for scheduled rules - in other
+            words, when schedulingOptions is also defined.
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          type: array
         cases:
           description: Cases for generating signals.
           items:
@@ -36986,6 +36992,8 @@ components:
           items:
             $ref: '#/components/schemas/SecurityMonitoringReferenceTable'
           type: array
+        schedulingOptions:
+          $ref: '#/components/schemas/SecurityMonitoringSchedulingOptions'
         tags:
           description: Tags for generated signals.
           items:
@@ -37012,6 +37020,27 @@ components:
       - $ref: '#/components/schemas/SecurityMonitoringStandardRulePayload'
       - $ref: '#/components/schemas/SecurityMonitoringSignalRulePayload'
       - $ref: '#/components/schemas/CloudConfigurationRulePayload'
+    SecurityMonitoringSchedulingOptions:
+      description: Options for scheduled rules. When this field is present, the rule
+        runs based on the schedule. When absent, it runs real-time on ingested logs.
+      nullable: true
+      properties:
+        rrule:
+          description: Schedule for the rule queries, written in RRULE syntax. See
+            [RFC](https://icalendar.org/iCalendar-RFC-5545/3-8-5-3-recurrence-rule.html)
+            for syntax reference.
+          example: FREQ=HOURLY;INTERVAL=1;
+          type: string
+        start:
+          description: Start date for the schedule, in ISO 8601 format without timezone.
+          example: '2025-07-14T12:00:00'
+          type: string
+        timezone:
+          description: Time zone of the start date, in the [tz database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+            format.
+          example: America/New_York
+          type: string
+      type: object
     SecurityMonitoringSignal:
       description: Object description of a security signal.
       properties:
@@ -37690,6 +37719,12 @@ components:
     SecurityMonitoringStandardRuleCreatePayload:
       description: Create a new rule.
       properties:
+        calculatedFields:
+          description: Calculated fields. Only allowed for scheduled rules - in other
+            words, when schedulingOptions is also defined.
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          type: array
         cases:
           description: Cases for generating signals.
           example: []
@@ -37742,6 +37777,8 @@ components:
           items:
             $ref: '#/components/schemas/SecurityMonitoringReferenceTable'
           type: array
+        schedulingOptions:
+          $ref: '#/components/schemas/SecurityMonitoringSchedulingOptions'
         tags:
           description: Tags for generated signals.
           example:
@@ -37771,6 +37808,12 @@ components:
     SecurityMonitoringStandardRulePayload:
       description: The payload of a rule.
       properties:
+        calculatedFields:
+          description: Calculated fields. Only allowed for scheduled rules - in other
+            words, when schedulingOptions is also defined.
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          type: array
         cases:
           description: Cases for generating signals.
           example: []
@@ -37831,6 +37874,8 @@ components:
           items:
             $ref: '#/components/schemas/SecurityMonitoringReferenceTable'
           type: array
+        schedulingOptions:
+          $ref: '#/components/schemas/SecurityMonitoringSchedulingOptions'
         tags:
           description: Tags for generated signals.
           example:
@@ -37887,6 +37932,14 @@ components:
           example: false
           readOnly: true
           type: boolean
+        index:
+          description: '**This field is currently unstable and might be removed in
+            a minor version upgrade.**
+
+            The index to run the query on, if the `dataSource` is `logs`. Only used
+            for scheduled rules - in other words, when the `schedulingOptions` field
+            is present in the rule payload.'
+          type: string
         metric:
           deprecated: true
           description: '(Deprecated) The target field to aggregate over when using
@@ -37914,6 +37967,12 @@ components:
     SecurityMonitoringStandardRuleResponse:
       description: Rule.
       properties:
+        calculatedFields:
+          description: Calculated fields. Only allowed for scheduled rules - in other
+            words, when schedulingOptions is also defined.
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          type: array
         cases:
           description: Cases for generating signals.
           items:
@@ -37999,6 +38058,8 @@ components:
           items:
             $ref: '#/components/schemas/SecurityMonitoringReferenceTable'
           type: array
+        schedulingOptions:
+          $ref: '#/components/schemas/SecurityMonitoringSchedulingOptions'
         tags:
           description: Tags for generated signals.
           items:
@@ -38030,6 +38091,12 @@ components:
     SecurityMonitoringStandardRuleTestPayload:
       description: The payload of a rule to test
       properties:
+        calculatedFields:
+          description: Calculated fields. Only allowed for scheduled rules - in other
+            words, when schedulingOptions is also defined.
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          type: array
         cases:
           description: Cases for generating signals.
           example: []
@@ -38082,6 +38149,8 @@ components:
           items:
             $ref: '#/components/schemas/SecurityMonitoringReferenceTable'
           type: array
+        schedulingOptions:
+          $ref: '#/components/schemas/SecurityMonitoringSchedulingOptions'
         tags:
           description: Tags for generated signals.
           example:
